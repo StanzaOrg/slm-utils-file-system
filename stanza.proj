@@ -9,41 +9,30 @@ package utils/file-system requires :
       os-x: "{.}/build/libutils-file-system.dylib"
       windows: "{.}\\build\\libutils-file-system.dll"
   ccflags:
-    on-platform:
-      linux: ( "-shared" "-L{.}/build" "-lutils-file-system" )
-      os-x: ( "-shared" "-l:{.}/build/libutils-file-system.dylib" )
-      windows: ( "-shared" "-l:{.}\\build\\libutils-file-system.dll" )
-
+    "-L{.}/build"
+    "-lutils-file-system"
 
 ; compile utils-file-system.c into a shared library
 compile flag "-lutils-file-system" :
   on-platform :
     linux :
       "mkdir -p build"
-      "cc -fPIC -c '{.}/src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
-      "cc -shared '{.}/build/utils-file-system.o' -lc  -o '{.}/build/libutils-file-system.so'"
-    else : ()
-compile flag "-l:{.}/build/libutils-file-system.dylib" :
-  on-platform :
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "cc -shared '{.}/build/utils-file-system.o' -o '{.}/build/libutils-file-system.so' -lc"
     os-x :
       "mkdir -p build"
-      "cc '{.}/src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o' -fPIC"
-      "cc -shared '{.}/build/utils-file-system.o' -o '{.}/build/libutils-file-system.so' -lc"
-    else : ()
-compile flag "-l:{.}\\build\\libutils-file-system.dll" :
-  on-platform :
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
+      "cc -shared '{.}/build/utils-file-system.o' -o '{.}/build/libutils-file-system.dylib' -lc"
     windows :
       "if not exist 'build\\' mkdir build"
-      "gcc -c '{.}\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
       "gcc -shared '{.}\\build\\utils-file-system.o' -o '{.}\\build\\libutils-file-system.dll' -lc"
-    else : ()
 
 
 build main :
   inputs:
     utils/file-system
   pkg: ".slm/pkgs"
-  ;;; o: "main"
 
 build-test utils-file-system-tests :
   inputs:

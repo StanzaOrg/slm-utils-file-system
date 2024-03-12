@@ -1,0 +1,40 @@
+include? ".slm/stanza.proj"
+pkg-cache: ".slm/pkg-cache"
+packages * defined-in "../src/"
+
+package utils/file-system requires :
+  ccflags:
+    on-platform:
+      linux: ( "-L{.}/build" "-lutils-file-system" )
+      else : ()
+
+; compile utils-file-system.c into a static library
+compile flag "-lutils-file-system" :
+  on-platform :
+    linux :
+      "mkdir -p build"
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/../src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
+    os-x :
+      "mkdir -p build"
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/../src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
+    windows :
+      "if not exist 'build\\' mkdir build"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\..\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "ar rcs '{.}\\build\\libutils-file-system.dll' '{.}\\build\\utils-file-system.o'"
+
+
+build main :
+  inputs:
+    utils/file-system
+  pkg: ".slm/pkgs"
+  o: "build/main"
+
+build-test utils-file-system-tests :
+  inputs:
+    utils/file-system
+    utils/file-system/tests
+  pkg: ".slm/test-pkgs"
+  o: "utils-file-system-tests"
+
