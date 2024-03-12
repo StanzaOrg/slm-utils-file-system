@@ -1,0 +1,54 @@
+include? ".slm/stanza.proj"
+pkg-cache: ".slm/pkg-cache"
+packages * defined-in "src/"
+
+package utils/file-system requires :
+  dynamic-libraries:
+    on-platform:
+      linux: "{.}/build/libutils-file-system.so"
+      os-x: "{.}/build/libutils-file-system.dylib"
+      windows: "{.}\\build\\libutils-file-system.dll"
+  ccflags:
+    on-platform:
+      linux: ( "-shared" "-L{.}/build" "-lutils-file-system" )
+      os-x: ( "-shared" "-l:{.}/build/libutils-file-system.dylib" )
+      windows: ( "-shared" "-l:{.}\\build\\libutils-file-system.dll" )
+
+
+; compile utils-file-system.c into a shared library
+compile flag "-lutils-file-system" :
+  on-platform :
+    linux :
+      "mkdir -p build"
+      "cc -fPIC -c '{.}/src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "cc -shared '{.}/build/utils-file-system.o' -lc  -o '{.}/build/libutils-file-system.so'"
+    else : ()
+compile flag "-l:{.}/build/libutils-file-system.dylib" :
+  on-platform :
+    os-x :
+      "mkdir -p build"
+      "cc '{.}/src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o' -fPIC"
+      "cc -shared '{.}/build/utils-file-system.o' -o '{.}/build/libutils-file-system.so' -lc"
+    else : ()
+compile flag "-l:{.}\\build\\libutils-file-system.dll" :
+  on-platform :
+    windows :
+      "if not exist 'build\\' mkdir build"
+      "gcc -c '{.}\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "gcc -shared '{.}\\build\\utils-file-system.o' -o '{.}\\build\\libutils-file-system.dll' -lc"
+    else : ()
+
+
+build main :
+  inputs:
+    utils/file-system
+  pkg: ".slm/pkgs"
+  ;;; o: "main"
+
+build-test utils-file-system-tests :
+  inputs:
+    utils/file-system
+    utils/file-system/tests
+  pkg: ".slm/test-pkgs"
+  o: "utils-file-system-tests"
+

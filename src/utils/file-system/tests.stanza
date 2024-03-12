@@ -1,0 +1,11 @@
+
+#use-added-syntax(tests)
+defpackage utils/file-system/tests :
+  import core
+
+  import utils/file-system
+
+deftest test-get-cwd:
+  val cwd = get-cwd()
+  ;println("cwd: \"%_\"" % [cwd])
+  #EXPECT(length(cwd) > 0)
