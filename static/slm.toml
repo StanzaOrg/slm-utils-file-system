@@ -1,6 +1,0 @@
-
-name = "slm_utils_file_system_static"
-version = "0.0.0"
-
-[dependencies]
-
