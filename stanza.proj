@@ -1,6 +1,7 @@
 include? ".slm/stanza.proj"
 pkg-cache: ".slm/pkg-cache"
-packages * defined-in "src/"
+package utils/file-system defined-in "src/utils/file-system.stanza"
+packages utils/file-system/* defined-in "src/utils/file-system"
 
 package utils/file-system requires :
   ccflags:
