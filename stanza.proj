@@ -12,15 +12,15 @@ package utils/file-system requires :
 compile flag "-lutils-file-system" :
   on-platform :
     linux :
-      "mkdir -p build"
+      "mkdir -p '{.}/build'"
       "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
       "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
     os-x :
-      "mkdir -p build"
+      "mkdir -p '{.}/build'"
       "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
       "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
     windows :
-      "if not exist 'build\\' mkdir build"
+      "if not exist '{.}\\build\\' mkdir {.}\\build"
       "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
       "ar rcs '{.}\\build\\libutils-file-system.dll' '{.}\\build\\utils-file-system.o'"
 
