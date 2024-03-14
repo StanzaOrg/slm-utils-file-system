@@ -1,40 +1,41 @@
 include? ".slm/stanza.proj"
 pkg-cache: ".slm/pkg-cache"
-package utils/file-system defined-in "src/utils/file-system.stanza"
-packages utils/file-system/* defined-in "src/utils/file-system"
 
-package utils/file-system requires :
+package file_system_utils defined-in "src/file_system_utils.stanza"
+packages file_system_utils/* defined-in "src/file_system_utils/"
+
+package file_system_utils requires :
   ccflags:
     "-L{.}/build"
-    "-lutils-file-system"
+    "-lstz_file_system_utils"
 
-; compile utils-file-system.c into a static library
-compile flag "-lutils-file-system" :
+; compile file_system_utils.c into a static library
+compile flag "-lstz_file_system_utils" :
   on-platform :
     linux :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
-      "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/file_system_utils.c' -o '{.}/build/file_system_utils.o'"
+      "ar rcs '{.}/build/libstz_file_system_utils.a' '{.}/build/file_system_utils.o'"
     os-x :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
-      "ar rcs '{.}/build/libutils-file-system.a' '{.}/build/utils-file-system.o'"
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils/file_system_utils.c' -c -o '{.}/build/file_system_utils.o'"
+      "ar rcs '{.}/build/libstz_file_system_utils.a' '{.}/build/file_system_utils.o'"
     windows :
       "if not exist '{.}\\build\\' mkdir {.}\\build"
-      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\src\\utils\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
-      "ar rcs '{.}\\build\\libutils-file-system.dll' '{.}\\build\\utils-file-system.o'"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\src\\utils\\file_system_utils.c' -o '{.}\\build\\file_system_utils.o'"
+      "ar rcs '{.}\\build\\libstz_file_system_utils.dll' '{.}\\build\\file_system_utils.o'"
 
 
 build main :
   inputs:
-    utils/file-system
+    file_system_utils
   pkg: ".slm/pkgs"
-  o: "build/main"
+  ;o: "main"
 
-build-test utils-file-system-tests :
+build-test file_system_utils_tests :
   inputs:
-    utils/file-system
-    utils/file-system/tests
+    file_system_utils
+    file_system_utils/tests
   pkg: ".slm/test-pkgs"
-  o: "utils-file-system-tests"
+  o: "file_system_utils_tests"
 

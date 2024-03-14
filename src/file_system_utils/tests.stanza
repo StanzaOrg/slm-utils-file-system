@@ -1,9 +1,9 @@
 
 #use-added-syntax(tests)
-defpackage utils/file-system/tests :
+defpackage file_system_utils/tests :
   import core
 
-  import utils/file-system
+  import file_system_utils
 
 deftest test-get-cwd:
   val cwd = get-cwd()
