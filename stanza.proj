@@ -6,7 +6,13 @@ packages file_system_utils/* defined-in "src/file_system_utils/"
 
 package file_system_utils requires :
   ccflags:
-    "-L{.}/build"
+    on-platform :
+      linux :
+        "-L{.}/build"
+      os-x :
+        "-L{.}/build"
+      windows :
+        "-L{.}\\build"
     "-lstz_file_system_utils"
 
 ; compile file_system_utils.c into a static library
@@ -22,7 +28,7 @@ compile flag "-lstz_file_system_utils" :
       "ar rcs '{.}/build/libstz_file_system_utils.a' '{.}/build/file_system_utils.o'"
     windows :
       "mkdir {.}\\build"
-      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}\\src\\file_system_utils.c' -o '{.}\\build\\file_system_utils.o'"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}\\include' '{.}\\src\\file_system_utils.c' -o '{.}\\build\\file_system_utils.o'"
       "ar rcs '{.}\\build\\libstz_file_system_utils.dll' '{.}\\build\\file_system_utils.o'"
 
 
