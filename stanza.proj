@@ -1,10 +1,10 @@
 include? ".slm/stanza.proj"
 pkg-cache: ".slm/pkg-cache"
 
-package file_system_utils defined-in "src/file_system_utils.stanza"
-packages file_system_utils/* defined-in "src/file_system_utils/"
+package utils-file-system defined-in "src/utils-file-system.stanza"
+packages utils-file-system/* defined-in "src/utils-file-system/"
 
-package file_system_utils requires :
+package utils-file-system requires :
   ccflags:
     on-platform :
       linux :
@@ -13,35 +13,35 @@ package file_system_utils requires :
         "-L{.}/build"
       windows :
         "-L{.}\\build"
-    "-lstz_file_system_utils"
+    "-lstz-utils-file-system"
 
-; compile file_system_utils.c into a static library
-compile flag "-lstz_file_system_utils" :
+; compile utils-file-system.c into a static library
+compile flag "-lstz-utils-file-system" :
   on-platform :
     linux :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/file_system_utils.c' -o '{.}/build/file_system_utils.o'"
-      "ar rcs '{.}/build/libstz_file_system_utils.a' '{.}/build/file_system_utils.o'"
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
     os-x :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/file_system_utils.c' -c -o '{.}/build/file_system_utils.o'"
-      "ar rcs '{.}/build/libstz_file_system_utils.a' '{.}/build/file_system_utils.o'"
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
     windows :
       "mkdir {.}\\build"
-      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}\\include' '{.}\\src\\file_system_utils.c' -o '{.}\\build\\file_system_utils.o'"
-      "ar rcs '{.}\\build\\libstz_file_system_utils.a' '{.}\\build\\file_system_utils.o'"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}\\include' '{.}\\src\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "ar rcs '{.}\\build\\libstz-utils-file-system.a' '{.}\\build\\utils-file-system.o'"
 
 
 build main :
   inputs:
-    file_system_utils
+    utils-file-system
   pkg: ".slm/pkgs"
   ;o: "main"
 
-build-test file_system_utils_tests :
+build-test utils-file-system-tests :
   inputs:
-    file_system_utils
-    file_system_utils/tests
+    utils-file-system
+    utils-file-system/tests
   pkg: ".slm/test-pkgs"
-  o: "file_system_utils_tests"
+  o: "utils-file-system-tests"
 

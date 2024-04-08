@@ -1,6 +1,6 @@
 ;; See license.txt for details about licensing.
 
-defpackage file_system_utils :
+defpackage utils-file-system :
   import core
   import core/parsed-path
 
