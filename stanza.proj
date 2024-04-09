@@ -38,9 +38,8 @@ build main :
   pkg: ".slm/pkgs"
   ;o: "main"
 
-build-test utils-file-system-tests :
+build-test test :
   inputs:
-    utils-file-system
     utils-file-system/tests
   pkg: ".slm/test-pkgs"
   o: "utils-file-system-tests"
