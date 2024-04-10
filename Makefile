@@ -2,7 +2,9 @@
 SHELL := /bin/bash
 PYTHON := python
 CONAN := conan
+SED := sed
 CONAN_HOME := $(shell pwd)/.conan2
+CONAN_OPTS := -vtrace
 # execute all lines of a target in one shell
 .ONESHELL:
 
@@ -24,14 +26,14 @@ build:
 	(cd conan_lbstanza_generator && ${CONAN} create .)
 
 	 # get the current project name from the slm.toml file
-	SLMPROJNAME=$$(sed -n -e '/^ *name *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
-	SLMPROJVER=$$(sed -n -e '/^ *version *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
+	SLMPROJNAME=$$(${SED} -n -e '/^ *name *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
+	SLMPROJVER=$$(${SED} -n -e '/^ *version *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
 
 	 # build slm and link to dependency libs using stanza.proj fragments
 	 # build only the current project, not any dependencies
 	echo "building \"$${SLMPROJNAME}/$${SLMPROJVER}\""
 	${CONAN} create \
-	    -vtrace \
+	    ${CONAN_OPTS} \
 	    --build "$${SLMPROJNAME}/$${SLMPROJVER}" .
 
 .PHONY: upload
@@ -46,8 +48,8 @@ upload:
 	${CONAN} remote login artifactory
 
 	 # get the current project name from the slm.toml file
-	SLMPROJNAME=$$(sed -n -e '/^ *name *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
-	SLMPROJVER=$$(sed -n -e '/^ *version *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
+	SLMPROJNAME=$$(${SED} -n -e '/^ *name *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
+	SLMPROJVER=$$(${SED} -n -e '/^ *version *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
 
 	${CONAN} upload -r artifactory $${SLMPROJNAME}/$${SLMPROJVER}
 
