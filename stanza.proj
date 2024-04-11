@@ -17,6 +17,7 @@ package utils-file-system requires :
         "-L{.}/build"
       windows :
         "-L{.}\\build"
+        "-Wl,-Bdynamic"
     "-lstz-utils-file-system"
 
 ; compile utils-file-system.c into a shared library
@@ -30,7 +31,7 @@ compile flag "-lstz-utils-file-system" :
       "cc -fPIC -rdynamic -shared -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.dylib'"
     windows :
       "mkdir {.}\\build"
-      "gcc -Wl,--export-all-symbols -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/stz-utils-file-system.dll'"
+      "gcc -Wl,--export-all-symbols -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.dll'"
 
 
 build main :
