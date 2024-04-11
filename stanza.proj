@@ -30,7 +30,7 @@ compile flag "-lstz-utils-file-system" :
       "cc -fPIC -rdynamic -shared -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.dylib'"
     windows :
       "mkdir {.}\\build"
-      "gcc -rdynamic -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/stz-utils-file-system.dll'"
+      "gcc -export-dynamic -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/stz-utils-file-system.dll'"
 
 
 build main :
