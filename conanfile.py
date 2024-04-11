@@ -139,7 +139,7 @@ class ConanSlmPackage(ConanFile):
       d="build"
       t="test"
       self.run(f"stanza build {t} -o {d}/{t} -verbose", cwd=self.source_folder, scope="build")
-      self.run(f"bash -c '{d}/{t}'", cwd=self.source_folder, scope="build")
+      self.run(f"bash -c 'export PATH=$PWD:$PATH ; {d}/{t}'", cwd=self.source_folder, scope="build")
 
 
   # package(): Copies files from build folder to the package folder.
