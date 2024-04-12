@@ -14,6 +14,8 @@ package utils-file-system requires :
         "-Wl,-rpath,$ORIGIN"
         "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/build"
         "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/lib"
+        "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/build"
+        "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/lib"
       os-x :
         "-L{.}/build"
       windows :
