@@ -12,6 +12,7 @@ package utils-file-system requires :
         ; specify run-time shared-library search paths
         ; use $ORIGIN as the location of the running executable
         "-Wl,-rpath,$ORIGIN"
+        "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/build"
         "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/lib"
       os-x :
         "-L{.}/build"
