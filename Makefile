@@ -13,12 +13,15 @@ all: build
 
 .PHONY: build
 build:
-	@if [ "$$VIRTUAL_ENV" == "" ] ; then
+	@echo -e "\n*** Makefile: build: creating venv ***"
+	if [ "$$VIRTUAL_ENV" == "" ] ; then
 	    echo "creating python virtual environment in ./venv"
 	    ${PYTHON} -m venv venv
 	    source venv/bin/activate
 	    pip install -r requirements.txt
 	fi
+
+	echo -e "\n*** Makefile: build: configuring conan ***"
 	export CONAN_HOME="${CONAN_HOME}"  # copy from make env to bash env
 	${CONAN} config install conan-config
 	 #${CONAN} remote enable conancenter
@@ -31,17 +34,20 @@ build:
 
 	 # build slm and link to dependency libs using stanza.proj fragments
 	 # build only the current project, not any dependencies
-	echo "building \"$${SLMPROJNAME}/$${SLMPROJVER}\""
+	echo -e "\n*** Makefile: build: building \"$${SLMPROJNAME}/$${SLMPROJVER}\" ***"
 	${CONAN} create \
 	    ${CONAN_OPTS} \
 	    --build "$${SLMPROJNAME}/$${SLMPROJVER}" .
 
 .PHONY: upload
 upload:
-	@if [ "$$VIRTUAL_ENV" == "" ] ; then
-	    echo "using python virtual environment in ./venv"
+	@echo -e "\n*** Makefile: upload: activating venv ***"
+	if [ "$$VIRTUAL_ENV" == "" ] ; then
+	    echo -e "*** Makefile: upload: using python virtual environment in ./venv ***"
 	    source venv/bin/activate
 	fi
+
+	echo -e "\n*** Makefile: upload: configuring conan ***"
 	export CONAN_HOME="${CONAN_HOME}"  # copy from make env to bash env
 	${CONAN} remote enable artifactory
 	 # expects user in CONAN_LOGIN_USERNAME_ARTIFACTORY and password in CONAN_PASSWORD_ARTIFACTORY
@@ -51,6 +57,7 @@ upload:
 	SLMPROJNAME=$$(${SED} -n -e '/^ *name *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
 	SLMPROJVER=$$(${SED} -n -e '/^ *version *= *"*\([^"]*\).*/{s//\1/;p;q}' slm.toml)
 
+	echo -e "\n*** Makefile: upload: uploading \"$${SLMPROJNAME}/$${SLMPROJVER}\" ***"
 	${CONAN} upload -r artifactory $${SLMPROJNAME}/$${SLMPROJVER}
 
 .PHONY: clean
