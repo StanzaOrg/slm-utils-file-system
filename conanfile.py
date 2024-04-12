@@ -23,7 +23,8 @@ class ConanSlmPackage(ConanFile):
   python_requires = "lbstanzagenerator_pyreq/[>=0.1]"
 
   # Binary configuration
-  settings = "os", "arch", "compiler", "build_type"
+  #settings = "os", "arch", "compiler", "build_type"
+  settings = "os", "arch"
 
   options = {"shared": [True, False], "fPIC": [True, False]}
   default_options = {"shared": True, "fPIC": True}
