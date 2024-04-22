@@ -18,23 +18,22 @@ package utils-file-system requires :
         "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/lib"
       os-x :
         "-L{.}/build"
+        ; specify run-time shared-library search paths
+        ; use $ORIGIN as the location of the running executable
+        "-Wl,-rpath,$ORIGIN"
+        "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/build"
+        "-Wl,-rpath,$ORIGIN/.slm/deps/utils-file-system/lib"
+        "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/build"
+        "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/lib"
       windows :
         "-L{.}\\build"
         "-Wl,-Bdynamic"
+        ; windows uses $PATH for dll location
     "-lstz-utils-file-system"
 
-; compile utils-file-system.c into a shared library
-compile flag "-lstz-utils-file-system" :
-  on-platform :
-    linux :
-      "mkdir -p '{.}/build'"
-      "cc -fPIC -rdynamic -shared -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.so'"
-    os-x :
-      "mkdir -p '{.}/build'"
-      "cc -fPIC -rdynamic -shared -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.dylib'"
-    windows :
-      "mkdir {.}\\build"
-      "gcc -Wl,--export-all-symbols -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/libstz-utils-file-system.dll'"
+; This include file will only exist in the git repo at binary package build time.
+; End-user slm packages will not have this include file.
+include? "stanza-library.proj"
 
 
 build main :
