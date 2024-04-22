@@ -1,0 +1,20 @@
+
+; These compile instructions are for binary package build time.
+; End-user slm packages will not have this include file.
+
+; compile utils-file-system.c into a static library
+compile flag "-lstz-utils-file-system" :
+  on-platform :
+    linux :
+      "mkdir -p '{.}/build'"
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
+    os-x :
+      "mkdir -p '{.}/build'"
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
+      "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
+    windows :
+      "mkdir {.}\\build"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}\\include' '{.}\\src\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "ar rcs '{.}\\build\\libstz-utils-file-system.a' '{.}\\build\\utils-file-system.o'"
+

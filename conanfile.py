@@ -63,6 +63,7 @@ class ConanSlmPackage(ConanFile):
     for f in Path(".").glob("template-stanza-*.proj"):
         copy2(os.path.join(self.recipe_folder, f), self.export_sources_folder)
     copy2(os.path.join(self.recipe_folder, "stanza.proj"), self.export_sources_folder)
+    copy2(os.path.join(self.recipe_folder, "stanza-library.proj"), self.export_sources_folder)
     copytree(os.path.join(self.recipe_folder, "src"), os.path.join(self.export_sources_folder, "src"))
 
 
