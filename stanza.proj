@@ -9,6 +9,7 @@ package utils-file-system requires :
     on-platform :
       linux :
         "-L{.}/build"
+        "-L{.}/lib"
         ; specify run-time shared-library search paths
         ; use $ORIGIN as the location of the running executable
         "-Wl,-rpath,$ORIGIN"
@@ -18,6 +19,7 @@ package utils-file-system requires :
         "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/lib"
       os-x :
         "-L{.}/build"
+        "-L{.}/lib"
         ; specify run-time shared-library search paths
         ; use $ORIGIN as the location of the running executable
         "-Wl,-rpath,$ORIGIN"
@@ -27,6 +29,7 @@ package utils-file-system requires :
         "-Wl,-rpath,$ORIGIN/../.slm/deps/utils-file-system/lib"
       windows :
         "-L{.}\\build"
+        "-L{.}\\lib"
         "-Wl,-Bdynamic"
         ; windows uses $PATH for dll location
     "-lstz-utils-file-system"
