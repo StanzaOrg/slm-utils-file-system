@@ -7,11 +7,11 @@ compile flag "-lstz-utils-file-system" :
   on-platform :
     linux :
       "mkdir -p '{.}/lib'"
-      "cc -fPIC -rdynamic -shared -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.so'"
+      "cc -fPIC -rdynamic -shared -DPLATFORM_LINUX '-I{STANZA_DIR}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.so'"
     os-x :
       "mkdir -p '{.}/lib'"
-      "cc -fPIC -rdynamic -shared -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.dylib'"
+      "cc -fPIC -rdynamic -shared -DPLATFORM_OS_X '-I{STANZA_DIR}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.dylib'"
     windows :
       "mkdir {.}\\lib"
-      "gcc -Wl,--export-all-symbols -shared -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.dll'"
+      "gcc -Wl,--export-all-symbols -shared -DPLATFORM_WINDOWS '-I{STANZA_DIR}/include' '{.}/src/utils-file-system.c' -o '{.}/lib/libstz-utils-file-system.dll'"
 
