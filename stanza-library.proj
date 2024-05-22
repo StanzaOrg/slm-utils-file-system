@@ -7,14 +7,14 @@ compile flag "-lstz-utils-file-system" :
   on-platform :
     linux :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
+      "cc -fPIC -c -DPLATFORM_LINUX '-I{STANZA_DIR}/include' '{.}/src/utils-file-system.c' -o '{.}/build/utils-file-system.o'"
       "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
     os-x :
       "mkdir -p '{.}/build'"
-      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_CONFIG}/include' '{.}/src/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
+      "cc -fPIC -c -DPLATFORM_OS_X '-I{STANZA_DIR}/include' '{.}/src/utils-file-system.c' -c -o '{.}/build/utils-file-system.o'"
       "ar rcs '{.}/build/libstz-utils-file-system.a' '{.}/build/utils-file-system.o'"
     windows :
       "mkdir {.}\\build"
-      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_CONFIG}\\include' '{.}\\src\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
+      "gcc -c -DPLATFORM_WINDOWS '-I{STANZA_DIR}\\include' '{.}\\src\\utils-file-system.c' -o '{.}\\build\\utils-file-system.o'"
       "ar rcs '{.}\\build\\libstz-utils-file-system.a' '{.}\\build\\utils-file-system.o'"
 
