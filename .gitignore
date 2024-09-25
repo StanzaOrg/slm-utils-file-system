@@ -1,7 +1,7 @@
 build/
 build_slm/
 venv/
-.conan2/
-.conan2.cache/
+.conan2
+.conan2.cache
 .slm/
 utils-file-system-tests
